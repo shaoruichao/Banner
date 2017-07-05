@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.banner.adapter.ViewPageAdapter;
 import com.example.banner.transformer.AlphaPageTransformer;
 import com.example.banner.transformer.NonPageTransformer;
 import com.example.banner.transformer.RotateDownPageTransformer;
@@ -33,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     //一般在项目中图片数组会从后台得到，例如
     private List<String> thumb;
     private ArrayList<ImageView> imageViews;
-    private viewPageAdapter mAdapter;
+//    private viewPageAdapter mAdapter;
+    private ViewPageAdapter mAdapter;
     private Handler handler;
 
     @Override
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         idViewpager.setOffscreenPageLimit(3);
         initImageViews();
 
-        mAdapter = new viewPageAdapter();
+        mAdapter = new ViewPageAdapter(this,imageViews);
         idViewpager.setAdapter(mAdapter);
 
         idViewpager.setCurrentItem(1000*imageViews.size());
@@ -82,51 +84,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class viewPageAdapter extends PagerAdapter{
-
-        @Override
-        public Object instantiateItem(ViewGroup container, final int position) {
-
-            final int i = position % imageViews.size();//为了防止角标越界
-//            //届时 就不用再初始化图片了，直接把imageViews替换成服务器获取的图片数组thumb就行了例如下面
-//            ImageView imageView = new ImageView(MainActivity.this);
-//            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-//            Glide.with(mContext).load(thumb.get(i)).into(imageView);
-//            imageView.setOnClickListener(new View.OnClickListener() {
+//    private class viewPageAdapter extends PagerAdapter{
+//
+//        @Override
+//        public Object instantiateItem(ViewGroup container, final int position) {
+//
+//            final int i = position % imageViews.size();//为了防止角标越界
+////            //届时 就不用再初始化图片了，直接把imageViews替换成服务器获取的图片数组thumb就行了例如下面
+////            ImageView imageView = new ImageView(MainActivity.this);
+////            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+////            Glide.with(mContext).load(thumb.get(i)).into(imageView);
+////            imageView.setOnClickListener(new View.OnClickListener() {
+////                @Override
+////                public void onClick(View v) {
+////                    Toast.makeText(getBaseContext(), position % thumb.size() + "", Toast.LENGTH_LONG).show();
+////                }
+////            });
+////            container.addView(imageView);
+////            return imageView;
+//            container.addView(imageViews.get(i));
+//            imageViews.get(i).setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
-//                    Toast.makeText(getBaseContext(), position % thumb.size() + "", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getBaseContext(),i+"",Toast.LENGTH_LONG).show();
 //                }
 //            });
-//            container.addView(imageView);
-//            return imageView;
-            container.addView(imageViews.get(i));
-            imageViews.get(i).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getBaseContext(),i+"",Toast.LENGTH_LONG).show();
-                }
-            });
-
-            return imageViews.get(i);
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-
-        @Override
-        public int getCount() {
-            //设置为展示好多条目
-            return Integer.MAX_VALUE;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-    }
+//
+//            return imageViews.get(i);
+//        }
+//
+//        @Override
+//        public void destroyItem(ViewGroup container, int position, Object object) {
+//            container.removeView((View) object);
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            //设置为展示好多条目
+//            return Integer.MAX_VALUE;
+//        }
+//
+//        @Override
+//        public boolean isViewFromObject(View view, Object object) {
+//            return view == object;
+//        }
+//    }
 
     private class TimerRunnable implements Runnable {
         @Override
