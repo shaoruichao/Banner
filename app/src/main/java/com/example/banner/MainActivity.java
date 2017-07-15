@@ -1,5 +1,6 @@
 package com.example.banner;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.banner.adapter.ViewPageAdapter;
@@ -24,7 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
     @BindView(R.id.id_viewpager)
     ViewPager idViewpager;
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
 //    private viewPageAdapter mAdapter;
     private ViewPageAdapter mAdapter;
     private Handler handler;
+
+    LinearLayout mLayout;
+    private ArrayList<View> mList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,22 @@ public class MainActivity extends AppCompatActivity {
 //        idViewpager.setPageTransformer(true, new RotateDownPageTransformer(new AlphaPageTransformer()));
 //        idViewpager.setPageTransformer(true, new RotateDownPageTransformer(new AlphaPageTransformer(new ScaleInTransformer())));
 
+        mLayout= (LinearLayout) findViewById(R.id.ll_indicator);
+        for (int i = 0; i < imageViews.size(); i++) {
+            View view=new View(this);
+            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,1.0f);
+            view.setLayoutParams(layoutParams);
+            if(i==0){
+//                view.setBackgroundColor(getResources().getColor(R.color.titleblue));
+//                view.setBackgroundColor(Color.parseColor("#ff00"));
+                view.setBackgroundColor(Color.RED);
+            }
+            mList.add(view);
+            mLayout.addView(view);
+        }
+
+        idViewpager.setOnPageChangeListener(this);
+
         //自动轮播
         handler = new Handler();
         handler.postDelayed(new TimerRunnable(),5000);
@@ -81,6 +102,27 @@ public class MainActivity extends AppCompatActivity {
 
             imageViews.add(imageView);
         }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        for (int i = 0; i < mList.size(); i++) {
+            if (i == position% mList.size()) {
+                mList.get(i).setBackgroundColor(Color.RED);
+            } else {
+                mList.get(i).setBackgroundColor(Color.GRAY);
+            }
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
 
