@@ -11,19 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:clipChildren="false"
-        android:layout_centerInParent="true"
         android:background="#aadc71ff"
-        >
-        <android.support.v4.view.ViewPager
-            android:id="@+id/id_viewpager"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
+
+        <com.example.banner.view.AutoPlayViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
             android:layout_height="120dp"
             android:clipChildren="false"
-            android:layout_gravity="center"
-            >
-        </android.support.v4.view.ViewPager>
+            android:layout_gravity="center"/>
 
     </FrameLayout>
 
@@ -42,5 +41,6 @@
         android:orientation="horizontal">
 
     </LinearLayout>
+
 
 </RelativeLayout>

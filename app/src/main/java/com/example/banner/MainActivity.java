@@ -19,6 +19,7 @@ import com.example.banner.transformer.RotateDownPageTransformer;
 import com.example.banner.transformer.RotateUpPageTransformer;
 import com.example.banner.transformer.RotateYTransformer;
 import com.example.banner.transformer.ScaleInTransformer;
+import com.example.banner.view.AutoPlayViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
-    @BindView(R.id.id_viewpager)
-    ViewPager idViewpager;
+    @BindView(R.id.pager)
+    AutoPlayViewPager idViewpager;
     //现在是死数据，所以我用int型数组
     int[] imgRes = {R.drawable.a, R.drawable.b, R.drawable.c, R.drawable.d,
             R.drawable.e, R.drawable.f, R.drawable.g, R.drawable.h, R.drawable.i};
@@ -84,8 +85,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         idViewpager.setOnPageChangeListener(this);
 
         //自动轮播
-        handler = new Handler();
-        handler.postDelayed(new TimerRunnable(),5000);
+//        handler = new Handler();
+//        handler.postDelayed(new TimerRunnable(),5000);
+        //自动轮播在刷新时候有问题，在网上看到有封装过的viewpager，直接套用了，要刷新的时候把mlist清除下并且viewpager要stop
+        idViewpager.start();
 
     }
 
@@ -172,20 +175,20 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 //        }
 //    }
 
-    private class TimerRunnable implements Runnable {
-        @Override
-        public void run() {
-            int curItem = idViewpager.getCurrentItem();
-            idViewpager.setCurrentItem(curItem+1);
-            if (handler!=null){
-                handler.postDelayed(this,5000);
-            }
-        }
-    }
+//    private class TimerRunnable implements Runnable {
+//        @Override
+//        public void run() {
+//            int curItem = idViewpager.getCurrentItem();
+//            idViewpager.setCurrentItem(curItem+1);
+//            if (handler!=null){
+//                handler.postDelayed(this,5000);
+//            }
+//        }
+//    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler = null;//Activity退出时及时 回收
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        handler = null;//Activity退出时及时 回收
+//    }
 }
